@@ -7,16 +7,17 @@ export default async function Home() {
   noStore();
   // const hello = await api.post.hello.query({ text: "from tRPC" });
   const posts = await api.post.getAll.query();
-  console.log(posts)
+  console.log(`Fetched ${posts.length} post${posts.length > 1 ? "s" : ""}`);
 
   return (
-    <main className="px-48 py-4">
-      <ul>
-      {posts && posts.map((post, i) => (
-        <li key={i}>{post.name}, {post.createdAt.toLocaleDateString()}</li>
-      ))}
-      </ul>
-    </main>
+    <ul>
+      {posts &&
+        posts.map((post, i) => (
+          <li key={i}>
+            {post.name}, {post.createdAt.toLocaleDateString()}
+          </li>
+        ))}
+    </ul>
   );
 }
 

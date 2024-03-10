@@ -27,7 +27,7 @@ export default function NavBar() {
       <NavigationMenuList className="flex">
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/">
+            <Link href="/create">
               <Button variant="ghost" className="flex gap-1">
                 <PlusCircledIcon height={iconSize} width={iconSize} />
                 <p>Create</p>
