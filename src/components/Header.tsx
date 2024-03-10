@@ -1,9 +1,13 @@
+import Link from "next/link";
+import Logo from "./Logo";
 import NavBar from "./NavBar";
 
 export default function Header() {
   return (
-    <div className="h-16 bg-stone-200 flex justify-between items-center py-2 px-48">
-      <div>Left side</div>
+    <div className="flex h-16 items-center justify-between bg-stone-200 px-48 py-2">
+      <Link href="/">
+        <Logo />
+      </Link>
       <div>
         <NavBar />
       </div>

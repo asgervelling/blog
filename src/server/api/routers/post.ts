@@ -1,3 +1,4 @@
+import { contextProps } from "@trpc/react-query/shared";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -24,9 +25,21 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
+  getById: publicProcedure
+    .input(z.object({ id: z.number().positive() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.post.findUnique({
+        where: { id: input.id },
+      });
+    }),
+
   getLatest: publicProcedure.query(({ ctx }) => {
     return ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
     });
+  }),
+
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.db.post.findMany();
   }),
 });

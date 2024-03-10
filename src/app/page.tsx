@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { unstable_noStore as noStore } from "next/cache";
 
 import { CreatePost } from "~/components/create-post";
@@ -7,12 +6,16 @@ import { api } from "~/trpc/server";
 export default async function Home() {
   noStore();
   // const hello = await api.post.hello.query({ text: "from tRPC" });
-  
+  const posts = await api.post.getAll.query();
+  console.log(posts)
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      Home page
-      {/* {isSignedIn && <SignOutButton />}
-      {!isSignedIn && <SignInButton />} */}
+    <main className="px-48 py-4">
+      <ul>
+      {posts && posts.map((post, i) => (
+        <li key={i}>{post.name}, {post.createdAt.toLocaleDateString()}</li>
+      ))}
+      </ul>
     </main>
   );
 }
