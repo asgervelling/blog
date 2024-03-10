@@ -1,23 +1,20 @@
 import { unstable_noStore as noStore } from "next/cache";
+import BlogPostPreview from "~/components/BlogPostPreview";
 
-import { CreatePost } from "~/components/create-post";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
   noStore();
-  // const hello = await api.post.hello.query({ text: "from tRPC" });
   const posts = await api.post.getAll.query();
   console.log(`Fetched ${posts.length} post${posts.length > 1 ? "s" : ""}`);
 
   return (
-    <ul>
+    <>
       {posts &&
         posts.map((post, i) => (
-          <li key={i}>
-            {post.name}, {post.createdAt.toLocaleDateString()}
-          </li>
+          <BlogPostPreview key={i} post={post} />
         ))}
-    </ul>
+    </>
   );
 }
 
