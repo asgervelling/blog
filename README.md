@@ -24,7 +24,7 @@ Choose the following values when prompted
 
 ```bash
 Vercel CLI 33.5.3
-? Set up “~/dev/repos/blog”? [Y/n] y
+? Set up “~/path/to/blog”? [Y/n] y
 ? Which scope should contain your project? temp-organization-123
 ? Found project “temp-organization-123/blog”. Link to it? [Y/n] y
 ✅  Linked to temp-organization-123/blog (created .vercel)
