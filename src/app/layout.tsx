@@ -3,7 +3,6 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "~/styles/globals.css";
-import NavBar from "../components/NavBar";
 import Header from "~/components/Header";
 
 const inter = Inter({
