@@ -8,21 +8,41 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "./ui/navigation-menu";
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 export default function NavBar() {
-  const iconSize = 32;
+  const iconSize = 24;
+  const { isLoaded, isSignedIn } = useUser();
 
   return (
     <NavigationMenu>
       <NavigationMenuList className="flex w-full">
         <NavigationMenuItem>
           <NavigationMenuLink>
-            <PlusCircledIcon width={iconSize} height={iconSize} />
+            <PlusCircledIcon height={iconSize} width={iconSize} />
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink>
-            <PersonIcon width={iconSize} height={iconSize} />
+            <ClerkLoading>
+              <div>Clerk is loading</div>
+            </ClerkLoading>
+            <ClerkLoaded>
+              <SignedIn>
+                  <UserButton />
+                </SignedIn>
+            </ClerkLoaded>
+            <SignedOut>
+                <SignInButton />
+              </SignedOut>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
