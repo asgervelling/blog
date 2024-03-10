@@ -37,32 +37,24 @@ export default function NavBar() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink>
-            <div id="cont" className="h-8 w-8">
-              <SignedIn>
-                <ClerkLoading>
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                </ClerkLoading> 
-                <ClerkLoaded>
-                  <UserButton
-                    appearance={{
-                      elements: {
-                        avatarBox: "h-8 w-8",
-                      },
-                    }}
-                  />
-                </ClerkLoaded>
-              </SignedIn>
-              <SignedOut>
-                <ClerkLoading>
-                  <Skeleton className="h-full w-16 bg-purple-300" />
-                </ClerkLoading>
-                <SignInButton>
-                  <Button variant="ghost" className="w-16">
-                    Sign In
-                  </Button>
-                </SignInButton>
-              </SignedOut>
-            </div>
+            <SignedIn>
+              <ClerkLoading>
+                <Skeleton className="h-8 w-8 rounded-full" />
+              </ClerkLoading>
+              <ClerkLoaded>
+                <UserButton />
+              </ClerkLoaded>
+            </SignedIn>
+            <SignedOut>
+              <ClerkLoading>
+                <Skeleton className="h-8 w-16" />
+              </ClerkLoading>
+              <SignInButton>
+                <Button variant="ghost" className="w-16">
+                  Sign In
+                </Button>
+              </SignInButton>
+            </SignedOut>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
