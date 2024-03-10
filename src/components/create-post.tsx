@@ -15,7 +15,6 @@ export function CreatePost() {
   
   if (!user) return null;
 
-
   const createPost = api.post.create.useMutation({
     onSuccess: () => {
       router.refresh();
@@ -28,10 +27,14 @@ export function CreatePost() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        createPost.mutate({ title, content, userId: user.id, username: user.username ?? "Anonymous" });
+        createPost.mutate({ title, content, userId: user.id });
+        const err = createPost.error
       }}
       className="flex flex-col gap-2"
     >
+      {createPost.error && (
+        <p>Error: {createPost.error.message}</p>
+      )}
       <input
         type="text"
         placeholder="Title"
