@@ -41,7 +41,7 @@ export default function NavBar() {
               <SignedIn>
                 <ClerkLoading>
                   <Skeleton className="h-8 w-8 rounded-full" />
-                </ClerkLoading>
+                </ClerkLoading> 
                 <ClerkLoaded>
                   <UserButton
                     appearance={{
