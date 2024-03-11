@@ -3,7 +3,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import type { Post } from "@prisma/client";
 import { currentUser } from "@clerk/nextjs";
-import { User } from "@clerk/nextjs/server";
+import type { User } from "@clerk/nextjs/server";
 
 
 /**

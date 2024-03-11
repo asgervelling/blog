@@ -9,13 +9,7 @@ export default async function Home() {
 
   return (
     <>
-      {posts &&
-        posts.map((post, i) => (
-          <BlogPostPreview
-            key={i}
-            post={post}
-          />
-        ))}
+      {posts?.map((post, i) => <BlogPostPreview key={i} post={post} />)}
     </>
   );
 }
