@@ -1,6 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
+import { TRPCClientError } from "@trpc/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -15,11 +16,10 @@ export function CreatePost() {
 
   const createPost = api.post.create.useMutation({
     onSuccess: () => {
-      router.refresh();
-      setTitle("");
-      setContent("");
+      router.push("/");
     },
     onError: (e) => {
+      console.log("message is ", e.message)
       toast.error(e.message);
     }
   });

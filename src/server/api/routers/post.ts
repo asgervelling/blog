@@ -1,4 +1,5 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { TRPCClientError } from "@trpc/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -9,8 +10,8 @@ export const postRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        title: z.string().min(1),
-        content: z.string().min(1),
+        title: z.string().min(1, "Title is empty."),
+        content: z.string().min(1, "This post has no content"),
         userId: z.string().min(1),
       }),
     )
@@ -32,6 +33,9 @@ export const postRouter = createTRPCRouter({
                 "Unhandled database error: " + JSON.stringify(e, null, 2),
               );
           }
+        }
+        else if (e instanceof TRPCClientError) {
+          console.log("CLERRR")
         } else {
           console.log("Unknown error occurred:", e);
         }
