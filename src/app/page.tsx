@@ -6,7 +6,7 @@ import { api } from "~/trpc/server";
 export default async function Home() {
   noStore();
   const posts = await api.post.getAll.query();
-  console.log(`Fetched ${posts.length} post${posts.length > 1 ? "s" : ""}`);
+  console.log(`Fetched ${posts.length} posts`);
 
   return (
     <>
