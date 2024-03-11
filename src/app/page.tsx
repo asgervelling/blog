@@ -8,8 +8,6 @@ export default async function Home() {
   const posts = await api.post.getAll.query();
 
   return (
-    <>
-      {posts?.map((post, i) => <BlogPostPreview key={i} post={post} />)}
-    </>
+    <>{posts?.map((post, i) => <BlogPostPreview key={i} post={post} />)}</>
   );
 }
