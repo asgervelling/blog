@@ -42,7 +42,7 @@ export default function NavBar() {
                 <Skeleton className="h-8 w-8 rounded-full" />
               </ClerkLoading>
               <ClerkLoaded>
-                <UserButton />
+                <UserButton afterSignOutUrl="/" />
               </ClerkLoaded>
             </SignedIn>
             <SignedOut>

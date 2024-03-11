@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 
 import "~/styles/globals.css";
 import Header from "~/components/Header";
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable} w-screen`}>
         <ClerkProvider>
           <TRPCReactProvider>
+            <Toaster />
             <Header />
             <main className="px-48 pt-4">{children}</main>
           </TRPCReactProvider>

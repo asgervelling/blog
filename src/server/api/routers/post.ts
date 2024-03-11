@@ -22,6 +22,7 @@ export const postRouter = createTRPCRouter({
 
         return newPost;
       } catch (e) {
+        console.log("Definitely:", e);
         if (e instanceof PrismaClientKnownRequestError) {
           switch (e.code) {
             case "P2002":
