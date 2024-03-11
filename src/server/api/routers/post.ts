@@ -1,5 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { contextProps } from "@trpc/react-query/shared";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -25,7 +26,7 @@ export const postRouter = createTRPCRouter({
             updatedAt: true,
           },
         });
-        
+
         return newPost;
       } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
@@ -33,7 +34,9 @@ export const postRouter = createTRPCRouter({
             case "P2002":
               throw new Error("You already have a post with the same title");
             default:
-              throw new Error("Unhandled database error: " + JSON.stringify(e, null, 2));
+              throw new Error(
+                "Unhandled database error: " + JSON.stringify(e, null, 2),
+              );
           }
         } else {
           console.log("Unknown error occurred:", e);
@@ -45,7 +48,7 @@ export const postRouter = createTRPCRouter({
   getById: publicProcedure
     .input(z.object({ id: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
-      return await ctx.db.post.findUnique({
+      const post = await ctx.db.post.findUnique({
         where: { id: input.id },
         select: {
           id: true,
@@ -55,6 +58,8 @@ export const postRouter = createTRPCRouter({
           updatedAt: true,
         },
       });
+      if (!post) throw new TRPCError({ code: "NOT_FOUND" });
+      else return post;
     }),
 
   getLatest: publicProcedure.query(async ({ ctx }) => {
