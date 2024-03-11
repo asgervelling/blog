@@ -12,9 +12,6 @@
     "lint": "next lint",
     "start": "next start"
   },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
   "dependencies": {
     "@clerk/nextjs": "^4.29.9",
     "@prisma/client": "^5.10.2",
