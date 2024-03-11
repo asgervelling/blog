@@ -8,5 +8,6 @@ import { PrismaClient as DevClient } from "@prisma/client";
 import { PrismaClient as ProdClient } from "@prisma/client/edge";
 
 const inDevelopment = process.env.NODE_ENV === "development";
+console.log("In development:", inDevelopment)
 const PrismaClient = inDevelopment ? DevClient : ProdClient;
 export default PrismaClient;
