@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import type { UserResource } from "@clerk/types";
 
 import type { Post } from "@prisma/client";
 import { currentUser } from "@clerk/nextjs";
@@ -10,16 +9,9 @@ import { User } from "@clerk/nextjs/server";
 /**
  * DayJS is a tiny library (2kb) that can format dates nicely.
  * To extend it with the fromNow function
- * (date -> str, i.e. myDate -> "[n] hours ago"),
  * we need to extend DayJS with the relativeTime plugin.
  */
 dayjs.extend(relativeTime);
-
-/**
- * A user type returned from useUser.
- * Users may or may not be logged in.
- */
-type UserResourceType = UserResource | null | undefined;
 
 type BlogPostPreviewProps = {
   post: Post;
@@ -32,13 +24,7 @@ type BlogPostPreviewProps = {
 export default async function BlogPostPreview({
   post,
 }: BlogPostPreviewProps) {
-  // const { isSignedIn, user, isLoaded } = useUser();
   const user = await currentUser();
- 
-  // if (!isLoaded) {
-  //   // Handle loading state however you like
-  //   return null;
-  // }
  
   return (
     <div className="rounded-sm bg-stone-200">
