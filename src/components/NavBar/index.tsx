@@ -30,7 +30,7 @@ export default function NavBar() {
             <Link href="/create">
               <Button variant="ghost" className="flex gap-1">
                 <PlusCircledIcon height={iconSize} width={iconSize} />
-                <p>Create</p>
+                <p>Create Form</p>
               </Button>
             </Link>
           </NavigationMenuLink>
