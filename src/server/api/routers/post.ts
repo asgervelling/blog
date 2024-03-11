@@ -1,5 +1,4 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { contextProps } from "@trpc/react-query/shared";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -18,13 +17,6 @@ export const postRouter = createTRPCRouter({
       try {
         const newPost = await ctx.db.post.create({
           data: input,
-          select: {
-            id: true,
-            title: true,
-            content: true,
-            createdAt: true,
-            updatedAt: true,
-          },
         });
 
         return newPost;
@@ -50,13 +42,6 @@ export const postRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const post = await ctx.db.post.findUnique({
         where: { id: input.id },
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          createdAt: true,
-          updatedAt: true,
-        },
       });
       if (!post) throw new TRPCError({ code: "NOT_FOUND" });
       else return post;
