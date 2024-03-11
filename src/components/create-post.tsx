@@ -19,7 +19,6 @@ export function CreatePost() {
       router.push("/");
     },
     onError: (e) => {
-      console.log("message is ", e.message)
       toast.error(e.message);
     }
   });

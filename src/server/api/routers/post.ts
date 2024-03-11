@@ -23,7 +23,6 @@ export const postRouter = createTRPCRouter({
 
         return newPost;
       } catch (e) {
-        console.log("Definitely:", e);
         if (e instanceof PrismaClientKnownRequestError) {
           switch (e.code) {
             case "P2002":
@@ -33,9 +32,6 @@ export const postRouter = createTRPCRouter({
                 "Unhandled database error: " + JSON.stringify(e, null, 2),
               );
           }
-        }
-        else if (e instanceof TRPCClientError) {
-          console.log("CLERRR")
         } else {
           console.log("Unknown error occurred:", e);
         }
