@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { PlusCircledIcon, PersonIcon } from "@radix-ui/react-icons";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
 import {
   ClerkLoaded,
   ClerkLoading,
@@ -8,7 +8,6 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-  useUser,
 } from "@clerk/nextjs";
 
 import {
@@ -22,13 +21,6 @@ import { Skeleton } from "~/components/ui/skeleton";
 
 export default function NavBar() {
   const iconSize = 24;
-
-  const { user } = useUser();
-  if (user) {
-    console.log(user.primaryEmailAddress?.emailAddress, user.id, user.username);
-  } else {
-    console.log("No user");
-  }
 
   return (
     <NavigationMenu>

@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
+// Todo: Create a private procedure that requires authentication
 export const postRouter = createTRPCRouter({
   create: publicProcedure
     .input(
@@ -54,6 +55,8 @@ export const postRouter = createTRPCRouter({
   }),
 
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.post.findMany();
+    return await ctx.db.post.findMany({
+      orderBy: { createdAt: "desc" },
+    });
   }),
 });
