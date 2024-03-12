@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { currentUser } from "@clerk/nextjs";
 
 import type { Post } from "@prisma/client";
-import { currentUser } from "@clerk/nextjs";
 import type { User } from "@clerk/nextjs/server";
 
 

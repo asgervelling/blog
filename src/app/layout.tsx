@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Hedvig_Letters_Serif } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
@@ -6,9 +6,11 @@ import { Toaster } from "react-hot-toast";
 import "~/styles/globals.css";
 import Header from "~/components/Header";
 
-const inter = Inter({
+// We're using a variable serif font.
+// The serifs give a newspaper-like feel to the site,
+// and it being a variable font is good for performance.
+const font = Hedvig_Letters_Serif({
   subsets: ["latin"],
-  variable: "--font-sans",
 });
 
 export const metadata = {
@@ -24,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable} w-screen`}>
+      <body className={`${font.className} w-screen`}>
         <ClerkProvider>
           <TRPCReactProvider>
             <Toaster />
