@@ -45,7 +45,7 @@ export default async function BlogPostPreview({ post }: BlogPostPreviewProps) {
 
 function TextPreview({ text }: { text: string }) {
   const minCharsForFade = 120;
-  const maxChars = 240;
+  const maxChars = 180;
   const displayText = text.slice(0, maxChars);
 
   if (text.length > minCharsForFade) {

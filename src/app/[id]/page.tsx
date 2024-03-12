@@ -40,8 +40,8 @@ export default function Page({ params }: PageProps) {
 function Paragraphs({ text }: { text: string }) {
   return (
     <>
-      {text.split("\n").map((paragraph) => (
-        <p className="pt-4">{paragraph}</p>
+      {text.split("\n").map((paragraph, i) => (
+        <p key={i} className="pt-4">{paragraph}</p>
       ))}
     </>
   );
