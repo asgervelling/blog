@@ -1,4 +1,4 @@
-import { Hedvig_Letters_Serif } from "next/font/google";
+import { Roboto_Serif } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
@@ -9,8 +9,9 @@ import Header from "~/components/Header";
 // We're using a variable serif font.
 // The serifs give a newspaper-like feel to the site,
 // and it being a variable font is good for performance.
-const font = Hedvig_Letters_Serif({
+const font = Roboto_Serif({
   subsets: ["latin"],
+  display: "swap"
 });
 
 export const metadata = {

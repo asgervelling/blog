@@ -27,8 +27,10 @@ export default async function BlogPostPreview({
   const user = await currentUser();
  
   return (
-    <div className="rounded-sm bg-stone-200">
-      <h5 className="text-md font-bold">{post.title}</h5>
+    <div className="rounded-sm bg-stone-100">
+      {/* Use H2 as titles, as they are SEO-friendly when
+          combined placed under an H1. Don't skip straight to H3. */}
+      <h2 className="text-md font-bold">{post.title}</h2>
       <p className="text-sm font-light italic">{`${dayjs(post.createdAt).fromNow()}`}</p>
       <p>Read more [Not implemented]</p>
       {isWrittenBy(user, post) ? <>Written by me</> : null}
