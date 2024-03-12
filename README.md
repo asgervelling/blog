@@ -1,5 +1,8 @@
 # Blog
 
+### Live
+At https://blog-indol-alpha-35.vercel.app/
+
 ### Installation
 First, you should be a part of the Vercel organization, so you
 have access to the environment variables. \
