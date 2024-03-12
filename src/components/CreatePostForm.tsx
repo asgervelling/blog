@@ -1,26 +1,31 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { api } from "~/trpc/react";
 
-export function CreatePost() {
+export function CreatePostForm() {
   const router = useRouter();
   const { user } = useUser();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const createPost = api.post.create.useMutation({
+  const createPostForm = api.post.create.useMutation({
     onSuccess: () => {
+      // Clear the cache of the frontpage next time it's visited
+      revalidatePath("/");
+
+      // Redirect to the front page
       router.push("/");
     },
     onError: (e) => {
       toast.error(e.message);
     },
   });
-  const isPosting = createPost.isLoading;
+  const isPosting = createPostForm.isLoading;
 
   if (!user) return null;
 
@@ -28,7 +33,7 @@ export function CreatePost() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        createPost.mutate({ title, content, userId: user.id });
+        createPostForm.mutate({ title, content, userId: user.id });
       }}
       className="flex flex-col gap-2"
     >

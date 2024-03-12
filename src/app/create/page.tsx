@@ -1,8 +1,8 @@
-import { CreatePost } from "~/components/create-post";
+import { CreatePostForm } from "~/components/CreatePostForm";
 
 export default function Page() {
   return <div>
     Create
-    <CreatePost />
+    <CreatePostForm />
   </div>
 }
