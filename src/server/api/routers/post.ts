@@ -41,10 +41,13 @@ export const postRouter = createTRPCRouter({
   getById: publicProcedure
     .input(z.object({ id: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
+      // Mock slow request
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const post = await ctx.db.post.findUnique({
         where: { id: input.id },
       });
-      if (!post) throw new TRPCError({ code: "NOT_FOUND" });
+      if (!post) return null;
       else return post;
     }),
 

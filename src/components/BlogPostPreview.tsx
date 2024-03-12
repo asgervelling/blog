@@ -32,6 +32,7 @@ export default async function BlogPostPreview({
       <p className="text-sm font-light italic">{`${dayjs(post.createdAt).fromNow()}`}</p>
       <p>Read more [Not implemented]</p>
       {isWrittenBy(user, post) ? <>Written by me</> : null}
+      <p>ID: {post.id}</p>
     </div>
   );
 }
