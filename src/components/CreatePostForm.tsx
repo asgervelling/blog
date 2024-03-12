@@ -17,9 +17,14 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "./ui/textarea";
-import revalidatePathServerAction from "~/server/actions";
+import { revalidatePathServerAction } from "~/server/actions";
+import type { Post } from "@prisma/client";
 
-export function CreatePostForm() {
+type CreatePostFormProps = {
+  post?: Post;
+};
+
+export function CreatePostForm({ post }: CreatePostFormProps) {
   const router = useRouter();
   const { user } = useUser();
 
@@ -50,6 +55,8 @@ export function CreatePostForm() {
   });
   const isPosting = createPostForm.isLoading;
 
+  console.log("post:", post)
+
   if (!user) return null;
 
   return (
@@ -68,7 +75,20 @@ export function CreatePostForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Title" className="text-2xl h-16" {...field} />
+                {post ? (
+                  <Input
+                    placeholder="Title"
+                    defaultValue={"Yo"}
+                    className="h-16 text-2xl"
+                    {...field}
+                  />
+                ) : (
+                  <Input
+                    placeholder="Title"
+                    className="h-16 text-2xl"
+                    {...field}
+                  />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +101,15 @@ export function CreatePostForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Textarea placeholder="Content" {...field} />
+                {post ? (
+                  <Textarea
+                    placeholder="Content"
+                    defaultValue="Hi"
+                    {...field}
+                  />
+                ) : (
+                  <Textarea placeholder="Content" {...field} />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>

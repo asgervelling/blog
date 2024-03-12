@@ -1,7 +1,9 @@
+"use client";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import PostControls from "~/components/PostControls";
+import PostSkeleton from "~/components/PostSkeleton";
 
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 
 type PageProps = {
   params: { id: string };
@@ -10,21 +12,37 @@ type PageProps = {
 /**
  * A page where a user can read a full post.
  */
-export default async function Page({ params }: PageProps) {
-  const post = await api.post?.getById.query(params);
+export default function Page({ params }: PageProps) {
+  const postQuery = api.post.getById.useQuery(params);
+  const post = postQuery.data;
 
-  if (!post) return notFound();
+  if (!post) return <PostSkeleton />;
 
   return (
     <div>
+      <div className="flex justify-end">
+        <PostControls post={post} />
+      </div>
       <h1 className="text-4xl">{post.title}</h1>
-
-      <p className="pt-4">{post.content}</p>
+      <Paragraphs text={post.content} />
       <div className="pt-8">
         <Link href="/" className="text-blue-800 underline hover:text-blue-500">
           Back to posts
         </Link>
       </div>
     </div>
+  );
+}
+
+/**
+ * Create paragraphs by splitting `text` on newlines.
+ */
+function Paragraphs({ text }: { text: string }) {
+  return (
+    <>
+      {text.split("\n").map((paragraph) => (
+        <p className="pt-4">{paragraph}</p>
+      ))}
+    </>
   );
 }

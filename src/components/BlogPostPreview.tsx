@@ -4,8 +4,9 @@ import { currentUser } from "@clerk/nextjs";
 
 import type { Post } from "@prisma/client";
 import type { User } from "@clerk/nextjs/server";
-import { cn } from "~/lib/utils";
 import Link from "next/link";
+
+import PostControls from "./PostControls";
 
 /**
  * DayJS is a tiny library (2kb) that can format dates nicely.
@@ -16,34 +17,46 @@ dayjs.extend(relativeTime);
 
 type BlogPostPreviewProps = {
   post: Post;
-} & React.HTMLAttributes<HTMLDivElement>;
-
+};
 /**
  * Display the post's title, a bit of its content and a link to read more. \
  * As a user, if this post is `writtenByMe`, I can edit or delete it.
  */
-export default async function BlogPostPreview({
-  post,
-  ...attrs
-}: BlogPostPreviewProps) {
+export default async function BlogPostPreview({ post }: BlogPostPreviewProps) {
   const user = await currentUser();
 
   return (
-    <div className={cn("rounded-sm bg-stone-100", attrs.className)} {...attrs}>
-      {/* Use H2 as titles, as they are SEO-friendly when
-          combined placed under an H1. Don't skip straight to H3. */}
-      <h2 className="text-md font-bold capitalize">{post.title}</h2>
-      <p className="text-sm font-light capitalize italic">{`${dayjs(post.createdAt).fromNow()}`}</p>
+    <div>
+      <div className="flex justify-between gap-4">
+        <h2 className="text-md font-bold capitalize">{post.title}</h2>
+        {isWrittenBy(user, post) && <PostControls post={post} />}
+      </div>
+      <p className="pb-2 text-xs font-light capitalize italic">{`${dayjs(post.createdAt).fromNow()}`}</p>
+      <TextPreview text={post.content} />
       <Link
         href={`/${post.id}`}
         className="text-blue-800 underline visited:text-purple-600 hover:text-blue-500"
       >
         Read more
       </Link>
-      {isWrittenBy(user, post) ? <>Written by me</> : null}
-      <p>ID: {post.id}</p>
     </div>
   );
+}
+
+function TextPreview({ text }: { text: string }) {
+  const minCharsForFade = 120;
+  const maxChars = 240;
+  const displayText = text.slice(0, maxChars);
+
+  if (text.length > minCharsForFade) {
+    return (
+      <p className="bg-gradient-to-b from-black to-white bg-clip-text text-transparent">
+        {displayText}
+      </p>
+    );
+  } else {
+    return <p>{displayText}</p>;
+  }
 }
 
 /**
