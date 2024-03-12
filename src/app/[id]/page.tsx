@@ -18,6 +18,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div>
       <h1 className="text-4xl">{post.title}</h1>
+      
       <p className="pt-4">{post.content}</p>
       <div className="pt-8">
         <BlueLink href="/">Back to posts</BlueLink>
