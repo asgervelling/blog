@@ -1,22 +1,45 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import toast from "react-hot-toast";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 import { api } from "~/trpc/react";
+import { Button } from "~/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Textarea } from "./ui/textarea";
+import revalidatePathServerAction from "~/server/actions";
 
 export function CreatePostForm() {
   const router = useRouter();
   const { user } = useUser();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+
+  const formSchema = z.object({
+    title: z.string().min(1, "Your post has no title"),
+    content: z.string().min(1, "Your post has no content"),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+    },
+  });
 
   const createPostForm = api.post.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       // Clear the cache of the frontpage next time it's visited
-      revalidatePath("/");
+      void revalidatePathServerAction("/");
 
       // Redirect to the front page
       router.push("/");
@@ -30,36 +53,48 @@ export function CreatePostForm() {
   if (!user) return null;
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        createPostForm.mutate({ title, content, userId: user.id });
-      }}
-      className="flex flex-col gap-2"
-    >
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        disabled={isPosting}
-        className="w-full rounded-full px-4 py-2 text-black"
-      />
-      <input
-        type="text"
-        placeholder="Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        disabled={isPosting}
-        className="h-full w-full rounded-full px-4 py-2 text-black"
-      />
-      <button
-        type="submit"
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-        disabled={isPosting}
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit((values) => {
+          const { title, content } = values;
+          createPostForm.mutate({ title, content, userId: user.id });
+        })}
+        className="space-y-4 px-24"
       >
-        {isPosting ? "Submitting..." : "Submit"}
-      </button>
-    </form>
+        <FormField
+          control={form.control}
+          name="title"
+          disabled={isPosting}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Title" className="text-2xl h-16" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="content"
+          disabled={isPosting}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea placeholder="Content" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          className="rounded-full px-10 py-3 font-semibold"
+          disabled={isPosting}
+        >
+          {isPosting ? "Submitting..." : "Submit"}
+        </Button>
+      </form>
+    </Form>
   );
 }
