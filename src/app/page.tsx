@@ -5,6 +5,14 @@ export default async function Home() {
   const posts = await api.post.getAll.query();
 
   return (
-    <>{posts?.map((post, i) => <BlogPostPreview key={i} post={post} />)}</>
+    <div className="space-y-4">
+      {posts?.map((post, i) => (
+        <BlogPostPreview
+          key={i}
+          post={post}
+          className={`${i === 0 ? "" : "border-t-[1px] border-t-stone-400"}`}
+        />
+      ))}
+    </div>
   );
 }

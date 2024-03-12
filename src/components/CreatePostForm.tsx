@@ -59,7 +59,7 @@ export function CreatePostForm() {
           const { title, content } = values;
           createPostForm.mutate({ title, content, userId: user.id });
         })}
-        className="space-y-4 px-24"
+        className="space-y-4"
       >
         <FormField
           control={form.control}

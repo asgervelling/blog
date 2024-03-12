@@ -32,7 +32,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <Toaster />
             <Header />
-            <main className="px-48 pt-12">{children}</main>
+            <main className="px-96 pt-24">{children}</main>
           </TRPCReactProvider>
         </ClerkProvider>
       </body>

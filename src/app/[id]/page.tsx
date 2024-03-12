@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { api } from "~/trpc/server";
-import BlueLink from "~/components/BlueLink";
 
 type PageProps = {
   params: { id: string };
@@ -18,10 +18,12 @@ export default async function Page({ params }: PageProps) {
   return (
     <div>
       <h1 className="text-4xl">{post.title}</h1>
-      
+
       <p className="pt-4">{post.content}</p>
       <div className="pt-8">
-        <BlueLink href="/">Back to posts</BlueLink>
+        <Link href="/" className="text-blue-800 underline hover:text-blue-500">
+          Back to posts
+        </Link>
       </div>
     </div>
   );

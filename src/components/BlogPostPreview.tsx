@@ -4,7 +4,8 @@ import { currentUser } from "@clerk/nextjs";
 
 import type { Post } from "@prisma/client";
 import type { User } from "@clerk/nextjs/server";
-
+import { cn } from "~/lib/utils";
+import Link from "next/link";
 
 /**
  * DayJS is a tiny library (2kb) that can format dates nicely.
@@ -15,7 +16,7 @@ dayjs.extend(relativeTime);
 
 type BlogPostPreviewProps = {
   post: Post;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 /**
  * Display the post's title, a bit of its content and a link to read more. \
@@ -23,16 +24,22 @@ type BlogPostPreviewProps = {
  */
 export default async function BlogPostPreview({
   post,
+  ...attrs
 }: BlogPostPreviewProps) {
   const user = await currentUser();
- 
+
   return (
-    <div className="rounded-sm bg-stone-100">
+    <div className={cn("rounded-sm bg-stone-100", attrs.className)} {...attrs}>
       {/* Use H2 as titles, as they are SEO-friendly when
           combined placed under an H1. Don't skip straight to H3. */}
-      <h2 className="text-md font-bold">{post.title}</h2>
-      <p className="text-sm font-light italic">{`${dayjs(post.createdAt).fromNow()}`}</p>
-      <p>Read more [Not implemented]</p>
+      <h2 className="text-md font-bold capitalize">{post.title}</h2>
+      <p className="text-sm font-light capitalize italic">{`${dayjs(post.createdAt).fromNow()}`}</p>
+      <Link
+        href={`/${post.id}`}
+        className="text-blue-800 underline visited:text-purple-600 hover:text-blue-500"
+      >
+        Read more
+      </Link>
       {isWrittenBy(user, post) ? <>Written by me</> : null}
       <p>ID: {post.id}</p>
     </div>
